@@ -3,14 +3,14 @@
 While it might seem strange, what I appreciate most about Japan is their convenience stores, known as "conbini." These establishments are not only widespread but consistently maintain a standard of cleanliness and offer a variety of affordable and delicious food options. Inspired by this, I developed an e-commerce platform that enables individuals outside of Japan to enjoy the conbini experience online. 
 
 Customers can:
-- 🔍 search for a product or filter by category 
+- 🔍 search for a product and/or filter by category 
 - 🛒 add products to their cart and update or remove an item 
 - 💵 enter their shipping, billing, and payment information at checkout and see a summary of their order upon purchase 
 
 Staff can:
-- 📝 search orders by ID, customer name, order date, shipping address, or status
+- 📝 search orders by ID, customer name, order date, shipping address, and/or status
 - 🚚 view orders and update the status of an order
-- 🍵 search products by ID, product name, or category 
+- 🍵 search products by ID, product name, and/or category 
 - ➕ add a new product and determine a main image 
 - 👀 view all products including their inventory count and quantity sold
 - ✏️ edit or delete a product
