@@ -16,7 +16,7 @@ Staff can:
 - ✏️ edit or delete a product
 
 In this project I:
-- Developed a robust e-commerce platform using Django, Python, and JavaScript, including interfaces for clients and staff
+- Developed a robust e-commerce platform using Django, Python, and JavaScript, including client and staff-side interfaces
 - Implemented AJAX for seamless and dynamic content updates, improving site responsiveness and page load times 
 - Created and maintained database schemas for products and orders, ensuring efficient data storage and retrieval
 - Employed session to store products in a virtual cart
