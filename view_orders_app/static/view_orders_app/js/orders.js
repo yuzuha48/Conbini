@@ -8,9 +8,13 @@ logo.addEventListener('click', function() {
 // Search for order ID, customer name, order date, or shipping address in table
 function search() {
     let searchInput = document.getElementById('searchInput');
+    let searchTerm = searchInput.value.toLowerCase();
+
+    let filterStatus = document.getElementById('filterStatus');
+    let status = filterStatus.value;
+
     let allOrders = document.getElementById('allOrders');
     let orders = Array.from(allOrders.getElementsByClassName('one_order'));
-    let searchTerm = searchInput.value.toLowerCase();
 
     orders.forEach(function(order) {
         let order_id = order.querySelector('.order_id').textContent;
@@ -18,11 +22,28 @@ function search() {
         let order_date = order.querySelector('.order_date').textContent.toLowerCase();
         let shipping_address = order.querySelector('.shipping_address').textContent.toLowerCase();
 
-        if (order_id.includes(searchTerm) || customer_name.includes(searchTerm) || order_date.includes(searchTerm) || shipping_address.includes(searchTerm)) {
-            order.style.display = '';
+        if (status === 'none') {
+            if (order_id.includes(searchTerm) || customer_name.includes(searchTerm) || order_date.includes(searchTerm) || shipping_address.includes(searchTerm)) {
+                order.style.display = '';
+            }
+            else {
+                order.style.display = 'none';
+            }
         }
         else {
-            order.style.display = 'none';
+            if (!searchInput.value) {
+                filter();
+            }
+            else {
+                let order_status = order.querySelector('.status').value;
+
+                if (status.includes(order_status) && (order_id.includes(searchTerm) || customer_name.includes(searchTerm) || order_date.includes(searchTerm) || shipping_address.includes(searchTerm))) {
+                    order.style.display = '';
+                }
+                else {
+                    order.style.display = 'none';
+                }
+            }
         }
     });
 }
@@ -30,22 +51,48 @@ function search() {
 
 // Filter by status 
 function filter() {
+    let searchInput = document.getElementById('searchInput');
+    let searchTerm = searchInput.value.toLowerCase(); 
+
     let filterStatus = document.getElementById('filterStatus');
+    let status = filterStatus.value;
+    
     let allOrders = document.getElementById('allOrders');
     let orders = Array.from(allOrders.getElementsByClassName('one_order'));
-    let status = filterStatus.value;
 
     orders.forEach(function(order) {
-        let order_status = order.querySelector('.status').value;
-
-        if (status == 'none') {
-            order.style.display = '';
-        }
-        else if (status.includes(order_status)) {
-            order.style.display = '';
+        if (status === 'none') {
+            if (!searchInput.value) {
+                order.style.display = '';
+            }
+            else {
+                search();
+            }
         }
         else {
-            order.style.display = 'none';
+            let order_status = order.querySelector('.status').value;
+
+            if (!searchInput.value) {
+                if (status.includes(order_status)) {
+                    order.style.display = '';
+                }
+                else {
+                    order.style.display = 'none';
+                }
+            }
+            else {
+                let order_id = order.querySelector('.order_id').textContent;
+                let customer_name = order.querySelector('.customer_name').textContent.toLowerCase();
+                let order_date = order.querySelector('.order_date').textContent.toLowerCase();
+                let shipping_address = order.querySelector('.shipping_address').textContent.toLowerCase();
+
+                if (status.includes(order_status) && (order_id.includes(searchTerm) || customer_name.includes(searchTerm) || order_date.includes(searchTerm) || shipping_address.includes(searchTerm))) {
+                    order.style.display = '';
+                }
+                else {
+                    order.style.display = 'none';
+                }
+            }
         }
     });
 };

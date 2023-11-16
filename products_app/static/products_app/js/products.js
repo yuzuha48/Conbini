@@ -8,19 +8,40 @@ logo.addEventListener('click', function() {
 // Search for ID or product name in table
 function search() {
     let searchInput = document.getElementById('searchInput');
+    let searchTerm = searchInput.value.toLowerCase();
+
+    let filterCategory = document.getElementById('filterCategory');
+    let category = filterCategory.value;
+
     let allProducts = document.getElementById('allProducts');
     let products = Array.from(allProducts.getElementsByClassName('one_product'));
-    let searchTerm = searchInput.value.toLowerCase();
 
     products.forEach(function(product) {
         let product_id = product.querySelector('.product_id').textContent;
         let product_name = product.querySelector('.product_name').textContent.toLowerCase();
 
-        if (product_name.includes(searchTerm) || product_id.includes(searchTerm)) {
-            product.style.display = '';
+        if (category === "none") {
+            if (product_name.includes(searchTerm) || product_id.includes(searchTerm)) {
+                product.style.display = '';
+            }
+            else {
+                product.style.display = 'none';
+            }
         }
         else {
-            product.style.display = 'none';
+            if (!searchInput.value) {
+                filter();
+            }
+            else {
+                let product_category = product.querySelector('.product_category').textContent;
+                
+                if (category.includes(product_category) && (product_name.includes(searchTerm) || product_id.includes(searchTerm))) {
+                    product.style.display = '';
+                }
+                else {
+                    product.style.display = 'none';
+                }
+            }
         }
     });
 }
@@ -28,22 +49,47 @@ function search() {
 
 // Filter by category 
 function filter() {
+    let searchInput = document.getElementById('searchInput');
+    let searchTerm = searchInput.value.toLowerCase();
+
     let filterCategory = document.getElementById('filterCategory');
-    let allProducts = document.getElementById('allProducts');
-    let products = Array.from(allProducts.getElementsByClassName('one_product'));
     let category = filterCategory.value;
 
-    products.forEach(function(product) {
-        let product_category = product.querySelector('.product_category').textContent;
+    let allProducts = document.getElementById('allProducts');
+    let products = Array.from(allProducts.getElementsByClassName('one_product'));
 
-        if (category == 'none') {
-            product.style.display = '';
-        }
-        else if (category.includes(product_category)) {
-            product.style.display = '';
+    products.forEach(function(product) {
+        if (category === "none") {
+            if (!searchInput.value) {
+                product.style.display = '';
+            }
+            else {
+                search();
+            }
         }
         else {
-            product.style.display = 'none';
+            let product_category = product.querySelector('.product_category').textContent;
+
+            if (!searchInput.value) {
+                if (category.includes(product_category)) {
+                    product.style.display = '';
+                }
+                else {
+                    product.style.display = 'none';
+                }
+            }
+            else {
+                let product_id = product.querySelector('.product_id').textContent;
+                let product_name = product.querySelector('.product_name').textContent.toLowerCase();
+
+                if (category.includes(product_category) && (product_name.includes(searchTerm) || product_id.includes(searchTerm))) {
+                    product.style.display = '';
+                }
+                else {
+                    product.style.display = 'none';
+                }
+            }
+
         }
     });
 };
