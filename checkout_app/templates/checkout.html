@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'checkout_app/css/checkout.css' %}">
+    <script src="{% static 'checkout_app/js/checkout.js' %}" defer></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>checkout | conbini</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <h4 id="logo">conbini・コンビニ</h4>
+            <a href="/products">continue shopping</a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="content-left">
+            <div class="shipping">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="header">01. Shipping</h3>
+                        <a class="edit" id="editShipping">Edit</a>
+                    </div>
+                    <div class="card-body" id="shippingBody">
+                        <div id="shippingErrors"></div>
+                        <form method="post" id="shippingForm">
+                            {% csrf_token %}
+                            <div class="name">
+                                <input type="text" class="first_name" id="shippingFirstName" name="first_name" placeholder="First Name *">
+                                <input type="text" 
+                                class="last_name" name="last_name" id="shippingLastName" placeholder="Last Name *">
+                            </div>
+                            <input type="text" name="address" id="shippingAddress" placeholder="Address *">
+                            <input type="text" name="address_2" id="shippingAddress2" placeholder="Address 2">
+                            <input type="text" name="city" id="shippingCity" placeholder="City *">
+                            <div class="state_and_zip">
+                                <input type="text" class="state" id="shippingState" name="state" placeholder="State *">
+                                <input type="text" class="zipcode" id="shippingZipcode" name="zipcode" placeholder="Zipcode *">
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Next">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="billing">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="header">02. Billing</h3>
+                        <a class="edit" id="editBilling">Edit</a>
+                    </div>
+                    <div class="card-body" id="billingBody" style="display: none;">
+                        <div id="billingErrors"></div>
+                        <form method="post" id="billingForm">
+                            {% csrf_token %}
+                            <div class="same_as_shipping">
+                                <input type="checkbox" class="checkbox" id="same_as_shipping" name="same_as_shipping">
+                                <label for="same_as_shipping">Same as Shipping</label>
+                            </div>
+                            <div class="name">
+                                <input type="text" class="first_name" id="billingFirstName" name="first_name" placeholder="First Name *">
+                                <input type="text" class="last_name" id="billingLastName" name="last_name" placeholder="Last Name *">
+                            </div>
+                            <input type="text" name="address" id="billingAddress" placeholder="Address *">
+                            <input type="text" name="address_2" id="billingAddress2" placeholder="Address 2">
+                            <input type="text" name="city" id="billingCity" placeholder="City *">
+                            <div class="state_and_zip">
+                                <input type="text" class="state" id="billingState" name="state" placeholder="State *">
+                                <input type="text" class="zipcode" id="billingZipcode" name="zipcode" placeholder="Zipcode *">
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Next">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="payment">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="header">03. Payment</h3>
+                        <a class="edit" id="editPayment">Edit</a>
+                    </div>
+                    <div class="card-body" id="paymentBody" style="display: none;">
+                        <div id="paymentErrors"></div>
+                        <form method="post" id="paymentForm">
+                            {% csrf_token %}
+                            <input type="text" name="card_number" id="cardNumber" placeholder="Credit Card or Debit Card Number *">
+                            <div class="card_details">
+                                <input type="month" class="expiration_date" id="expirationDate" name="expiration_date">
+                                <input type="text" class="cvv" name="cvv" id="cvv" placeholder="CVV *">
+                            </div>
+                            <input type="submit" class="btn btn-primary complete_order" value="Complete Order">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-right">
+            <div class="card">
+                <div class="card-header order_summary">Order Summary</div>
+                <div class="card-body items">
+                    {% for product_name, details in items.items %}
+                        <div class="one_item">
+                            <div class="item-left">
+                                <img src="/media/{{details.image}}" alt="{{product_name}} Image">
+                                <p>{{details.quantity}} x {{product_name}}</p>
+                            </div>
+                            <div class="item-right">
+                                <p>${{details.cost}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="total">
+                        <p><strong>Order Total: ${{total}}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

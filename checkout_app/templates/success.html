@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'checkout_app/css/success.css' %}">
+    <script src="{% static 'checkout_app/js/success.js' %}" defer></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>thank you! | conbini</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <h4 id="logo">conbini・コンビニ</h4>
+            <a href="/products">continue shopping</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Thank you for your purchase, {{order.billing_address.first_name}}!</h2>
+        <div class="content">
+            <div class="content-left">
+                <div class="card order_summary">
+                    <h5 class="card-header">Order Summary</h5>
+                    <div class="card-body items">
+                        {% for order_item in order.order_items.all %}
+                            <div class="one_item">
+                                <div class="item-left">
+                                    {% for image in order_item.product.images.all %}
+                                        {% if image.main == 1 %}
+                                            <img src="/media/{{image.image}}" alt="{{order_item.product.product_name}} Image">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <p>{{order_item.quantity}} x {{order_item.product.product_name}}</p>
+                                </div>
+                                <div class="item-right">
+                                    <p>${{order_item.total}}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="total">
+                            <p>Order Total: ${{order.order_total}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="card shipping_info">
+                    <h5 class="card-header">Shipping Info</h5>
+                    <div class="card-body">
+                        <p>{{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</p>
+                        <p>{{order.shipping_address.shipping_address}}</p>
+                        {% if order.shipping_address.shipping_address2 %}
+                            <p>{{order.shipping_address.shipping_address2}}</p>
+                        {% endif %}
+                        <p>{{order.shipping_address.shipping_city}}, {{order.shipping_address.shipping_state}} {{order.shipping_address.shipping_zipcode}}</p>
+                    </div>
+                </div>
+                <div class="card billing_info">
+                    <h5 class="card-header">Billing Info</h5>
+                    <div class="card-body">
+                        <p>{{order.billing_address.first_name}} {{order.shipping_address.last_name}}</p>
+                        <p>{{order.billing_address.billing_address}}</p>
+                        {% if order.billing_address.billing_address2 %}
+                            <p>{{order.billing_address.billing_address2}}</p>
+                        {% endif %}
+                        <p>{{order.billing_address.billing_city}}, {{order.billing_address.billing_state}} {{order.billing_address.billing_zipcode}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

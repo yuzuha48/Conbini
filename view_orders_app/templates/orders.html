@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'view_orders_app/css/orders.css' %}">
+    <script src="{% static 'view_orders_app/js/orders.js' %}" defer></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>orders | conbini</title>
+</head>
+<body>
+    <div class="top">
+        <div class="top-content">
+            <div class="navbar">
+                <div class="nav-left">
+                    <h4 id="logo">conbini・コンビニ</h4>
+                    <h6 class="orders_header"><strong>orders</strong></h6>
+                    <h6><a href="/staff/products">products</a></h6>
+                </div>
+                <div class="nav-right">
+                    <a href="/staff">log out</a>
+                </div>
+            </div>
+            <div class="search">
+                <input type="text" class="form-control custom-input" id="searchInput" name="search" placeholder="Search by ID, Customer Name, Order Date, or Shipping Address" oninput="search()">
+                <div class="dropdown">
+                    <select class="btn btn-secondary dropdown-toggle" id="filterStatus" onchange="filter()">
+                        <option value="none" selected>All Statuses</option>
+                        <option value="order_in_process">Order in Process</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="canceled">Canceled</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Date</th>
+                    <th>Shipping Address</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="allOrders">
+                {% for order in all_orders reversed %}
+                    <tr class="one_order">
+                        <td class="order_id"><a href="orders/{{order.id}}">{{order.id}}</a></td>
+                        <td class="customer_name">{{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</td>
+                        <td class="order_date">{{order.created_at|date:"M d, Y"}}</td>
+                        <td class="shipping_address">{{order.shipping_address.shipping_address}}{% if order.shipping_address.shipping_address2 %}, {{order.shipping_address.shipping_address2}}{% endif %}, {{order.shipping_address.shipping_city}}, {{order.shipping_address.shipping_state}} {{order.shipping_address.shipping_zipcode}}</td>
+                        <td>${{order.order_total}}</td>
+                        <td>
+                            <form>
+                                {% csrf_token %}
+                                <div class="order_id hidden">{{order.id}}</div>
+                                <div class="form-group">
+                                    <select class="form-select status" name="status">
+                                        {% if order.status == 'order_in_process' %}
+                                            <option value="order_in_process" selected>Order in Process</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="canceled">Canceled</option>
+                                        {% elif order.status == 'shipped' %}
+                                            <option value="order_in_process">Order in Process</option>
+                                            <option value="shipped" selected>Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="canceled">Canceled</option>
+                                        {% elif order.status == 'delivered' %}
+                                            <option value="order_in_process">Order in Process</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered" selected>Delivered</option>
+                                            <option value="canceled">Canceled</option>
+                                        {% elif order.status == 'canceled' %}
+                                            <option value="order_in_process">Order in Process</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                            <option value="canceled" selected>Canceled</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

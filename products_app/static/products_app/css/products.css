@@ -1,0 +1,157 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    height: 100vh;
+}
+
+.top {
+    height: 18%;
+    min-height: 130px;
+}
+
+.top-content {
+    position: fixed !important;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    padding: 15px 25px !important;
+    background-color: #00a041;
+    color: white;
+}
+
+#logo {
+    cursor: pointer;
+}
+
+.products_header {
+    text-decoration: underline;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.top-items {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.search {
+    display: flex;
+    gap: 10px;
+    width: 40%;
+}
+
+.search input {
+    width: 100%;
+}
+
+.content {
+    padding: 20px;
+}
+
+.image_cell {
+    width: 8%;
+}
+
+img {
+    width: 90%;
+    max-width: 50px;
+}
+
+#addProductErrors p, #editProductErrors p {
+    margin-bottom: 0px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+#selectedImages {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.add {
+    background-color: #00a041 !important;
+    border: 1px solid #00a041 !important;
+}
+
+.editProduct, .deleteProduct {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#images {
+    margin-bottom: 20px;
+}
+
+ul {
+    padding-left: 15px !important;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+    margin-top: 5px;
+}
+
+.about_image {
+    display: flex;
+    gap: 10px;
+}
+
+li a {
+    margin-right: 10px;
+    text-decoration: underline !important; 
+    color: #0000FF !important;
+    cursor: pointer;
+}
+
+.action {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+}
+
+.save {
+    background-color: #00a041 !important;
+    border: 1px solid #00a041 !important;
+}
+
+#preview a {
+    color: white;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}

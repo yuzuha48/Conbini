@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'products_app/css/products.css' %}">
+    <script src="{% static 'products_app/js/products.js' %}" defer></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>products | conbini</title>
+</head>
+<body>
+    <div class="top">
+        <div class="top-content">
+            <div class="navbar">
+                <div class="nav-left">
+                    <h4 id="logo">conbini・コンビニ</h4>
+                    <h6><a href="/staff/orders">orders</a></h6>
+                    <h6 class="products_header"><strong>products</strong></h6>
+                </div>
+                <div class="nav-right">
+                    <a href="/staff">log out</a>
+                </div>
+            </div>
+            <div class="top-items">
+                <div class="search">
+                    <input type="text" class="form-control custom-input" id="searchInput" name="search" placeholder="Search by ID or Product Name" oninput="search()">
+                    <div class="dropdown">
+                        <select class="btn btn-secondary dropdown-toggle" id="filterCategory" onchange="filter()">
+                            <option value="none" selected>All Categories</option>
+                            <option value="food">Food</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="snacks">Snacks</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary add" id="addProductButton">Add New Product</button>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="addProductErrors"></div>
+                        <form method="post" action="/staff/products/add" enctype="multipart/form-data" id="addProductForm">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Product Name">
+                            </div>
+                            <div class="form-group price">
+                                <div class="input-group">
+                                    <div class="input-group-text">$</div>
+                                    <input type="text" class="form-control" name="price" id="price" placeholder="Price">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="desc" id="desc" placeholder="Description" cols="20" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select" name="category" id="category">
+                                    <option value="none" selected disabled>Select a Category</option>
+                                    <option value="food">Food</option>
+                                    <option value="drink">Drink</option>
+                                    <option value="snack">Snack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" name="inventory_count" id="inventory_count" placeholder="Inventory Count">
+                            </div>
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="images" id="images" multiple>
+                                <ul id="selectedImages"></ul>
+                            </div>
+                            <div class="buttons">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                <input type="submit" class="btn btn-primary add" value="Add">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Picture</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Inventory Count</th>
+                    <th scope="col">Quantity Sold</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="allProducts">
+                {% for product in all_products reversed %}
+                <tr class="one_product">
+                    <td class="hidden product_category">{{product.category}}</td>
+                    {% for image in product.images.all %}
+                        {% if image.main == 1 %}
+                        <td class="image_cell"><img src="/media/{{image.image}}" alt="{{product.product_name}} Image"></td>
+                        {% endif %}
+                    {% endfor %}
+                    <td class="product_id">{{product.id}}</td>
+                    <td class="product_name">{{product.product_name}}</td>
+                    <td>{{product.productinventory.inventory_count}}</td>
+                    <td>{{product.productinventory.quantity_sold}}</td>
+                    <td><a class="editProduct">Edit</a> | <a class="deleteProduct">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data" id="editProductForm">
+                            <div id="editProductErrors" class="hidden"></div>
+                            <div class="hidden" id="product_id"></div>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="product_name">Product Name</label>
+                                <input type="text" class="form-control" name="product_name" id="product_name">
+                            </div>
+                            <div class="form-group price">
+                                <label for="price">Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-text">$</div>
+                                    <input type="text" class="form-control" name="price" id="price">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" name="desc" id="desc" placeholder="description" cols="20" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select class="form-select" name="category" id="category">
+                                    <option value="food">Food</option>
+                                    <option value="drink">Drink</option>
+                                    <option value="snack">Snack</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inventory_count">Inventory Count</label>
+                                <input type="number" class="form-control" name="inventory_count" id="inventory_count">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity_sold">Quantity Sold</label>
+                                <input type="number" class="form-control" name="quantity_sold" id="quantity_sold">
+                            </div>
+                            <div class="form-group">
+                                <label for="images">Images</label>
+                                <input type="file" class="form-control" name="images" id="images" multiple>
+                                <ul id="selectedImages"></ul>
+                            </div>
+                            <div class="buttons">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                <input type="submit" class="btn btn-primary save" value="Save">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

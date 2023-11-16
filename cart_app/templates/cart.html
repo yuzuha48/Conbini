@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'cart_app/css/cart.css' %}">
+    <script src="{% static 'cart_app/js/cart.js' %}" defer></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>cart | conbini</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-content">
+            <h4 id="logo">conbini・コンビニ</h4>
+            <a href="/products">continue shopping</a>
+        </div>
+    </div>
+    <div class="content" id="content">
+        {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="allProducts">
+                {% for item in cart_items %}
+                <tr class="one_product">
+                    <td class="hidden product_id">{{item.product.id}}</td>
+                    <td>{{item.product.product_name}}</td>
+                    <td>${{item.product.price}}</td>
+                    <td class="quantity">{{item.quantity}}</td>
+                    <td><a class="updateItem">Update</a> | <a class="removeItem">Remove</a></td>
+                    <td>${{item.cost}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="nothing_in_cart">
+            <div class="alert alert-secondary" role="alert">
+                <h4 class="alert-heading text-center">You don't have anything in your cart</h4>
+            </div>
+        </div>
+        {% endif %}
+        <div class="modal fade" id="updateItemModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-left">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="0">
+                                <div class="carousel-inner" id="images"></div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="modal-right">
+                            <div class="product_info">
+                                <div class="product_details">
+                                    <h5 id="product_name"></h5>
+                                    <h6 id="price"></h6>
+                                    <p id="desc"></p>
+                                </div>
+                            </div>
+                            <form method="post" id="updateItemForm">
+                                <div id="updateItemErrors"></div>
+                                <p class="hidden" id="product_id"></p>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <select class="form-select" name="quantity" id="quantity">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <input type="submit" class="btn btn-primary update" value="Update">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if cart_items %}
+            <div class="final">
+                <p id="grandTotal">Order Total: ${{total}}</p>
+                <a class="btn btn-primary check_out" href="/checkout">Checkout</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

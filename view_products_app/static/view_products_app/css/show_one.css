@@ -1,0 +1,117 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    height: 100vh;
+}
+
+.navbar {
+    height: 10%;
+    min-height: 75px;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px !important;
+    background-color: #008cd6;
+    color: white; 
+    position: fixed !important;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+#logo {
+    cursor: pointer;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a, .navbar p {
+    height: min-content;
+    margin-bottom: 0px;
+}
+
+.cart {
+    display: flex;
+    gap: 4px;
+}
+
+.cart_items {
+    display: flex;
+}
+
+.content {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-left {
+    display: flex;
+    gap: 10px;
+    width: 85%;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 75%;
+}
+
+.card {
+    flex-basis: calc(50% - 20px);
+    box-sizing: border-box;
+    border: none !important;
+    background-color: none;
+}
+
+@media (max-width: 800px) {
+    .card {
+        flex-basis: calc(100% - 20px);
+    }
+}
+
+.alert p {
+    margin-bottom: 0px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #008cd6 !important; 
+    border: 1px solid #008cd6 !important;
+}
+
+.add_to_cart:active {
+    background-color: #195270 !important;
+    border: 1px solid #195270 !important;
+}
+
+#successMessage {
+    height: min-content;
+    position: relative;
+    top: .5%;
+    right: .5%;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+#successMessage p {
+    margin-bottom: 0px;
+}
+
+.hidden {
+    display: none;
+}
