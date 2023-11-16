@@ -19,7 +19,8 @@ In this project I:
 - Developed a robust e-commerce platform using Django, Python, and JavaScript, including client-side and staff-side interfaces 
 - Implemented AJAX for seamless and dynamic content updates, improving site responsiveness and reducing page load times 
 - Created and maintained database schemas for CRUD of products and orders, ensuring efficient data storage and retrieval
-- Utilized session to store products in a virtual cart
+- Employed session to store products in a virtual cart
+- Utilized Bootstrap's modal functionality to enhance user experience when submitting forms 
 
 <img width="1440" alt="Screen Shot 2023-11-14 at 20 03 35" src="https://github.com/yuzuha48/Conbini/assets/106595505/0f166897-e627-4262-8a2f-089658b07799">
 <img width="1440" alt="Screen Shot 2023-11-14 at 20 04 21" src="https://github.com/yuzuha48/Conbini/assets/106595505/01401791-e242-4eef-ba5b-897c14529635">
@@ -32,7 +33,6 @@ In this project I:
 <img width="1440" alt="Screen Shot 2023-11-13 at 17 13 37" src="https://github.com/yuzuha48/Conbini/assets/106595505/1e22e6cb-fad2-4f90-80ac-a31bd7d61467">
 <img width="1440" alt="Screen Shot 2023-11-13 at 17 14 57" src="https://github.com/yuzuha48/Conbini/assets/106595505/82f0f484-68f8-4dec-8b81-8f7ba8888e09">
 <img width="1440" alt="Screen Shot 2023-11-13 at 17 20 13" src="https://github.com/yuzuha48/Conbini/assets/106595505/ecbf8f9c-3f62-49c1-b179-df48db8daecd">
-
 
 ## Prerequisites
 
