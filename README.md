@@ -1,6 +1,6 @@
 # Conbini 🍙 
 
-While it might seem strange, what I appreciate most about Japan is their convenience stores, known as "conbini." These establishments are not only widespread but consistently maintain a standard of cleanliness and offer a variety of affordable and delicious food options. Inspired by this, I developed an e-commerce platform that enables individuals outside of Japan to enjoy the conbini experience online. 
+While it might seem strange, my favorite thing about Japan is their convenience stores, also known as "conbini." One can find a conbini on almost every corner, and these establishments consistently maintain a standard of cleanliness and offer a variety of affordable and delicious food options. I decided to develop an e-commerce platform that enables individuals outside of Japan to enjoy the conbini experience online. 
 
 Customers can:
 - 🔍 search for a product and/or filter by category 
